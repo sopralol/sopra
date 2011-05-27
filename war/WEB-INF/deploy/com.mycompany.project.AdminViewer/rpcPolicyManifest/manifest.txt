@@ -1,0 +1,2 @@
+# Module com.mycompany.project.AdminViewer
+# RPC service class, partial path of RPC policy file

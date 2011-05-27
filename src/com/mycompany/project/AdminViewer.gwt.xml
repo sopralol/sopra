@@ -1,0 +1,11 @@
+<module>
+	<inherits name="com.google.gwt.user.User"/>
+	<inherits name="com.google.gwt.user.theme.standard.Standard"/>
+
+	<inherits name="com.google.gwt.maps.GoogleMaps" />
+	<script src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2&amp;sensor=false" />
+		
+	<entry-point class="com.mycompany.project.client.AdminViewer"/>
+	<inherits name="com.mycompany.project.AdminViewer"/>
+		
+</module>
