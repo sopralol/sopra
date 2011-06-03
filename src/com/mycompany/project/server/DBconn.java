@@ -236,7 +236,7 @@ public abstract class DBconn {
           return null;
       }
 	}
-	public static void deletePerson(int id){
+	public static void deletePerson(String id){
 		try {
 			 Connection conn = getConnection();
 			 String query="delete from personen where id ="+id+";";
@@ -248,6 +248,18 @@ public abstract class DBconn {
           System.out.println("VendorError: " + ex.getErrorCode());
       }
 	}
-	
+	public static void updatePerson(String pid,String vorname,String nachname,String email,String telefon,String institut,String titel){
+		try {
+			 Connection conn = getConnection();
+			 String insert="vorname='"+vorname+"',nachname='"+nachname+"',email='"+email+"',telefon='"+telefon+"',institut='"+institut+"',titel='"+titel+"'";
+			 String query="update personen set "+insert+" where id="+pid+";";
+			 Statement stmt=conn.createStatement();
+			 stmt.executeUpdate(query);
+      } catch (SQLException ex) {
+          System.out.println("SQLException: " + ex.getMessage());
+          System.out.println("SQLState: " + ex.getSQLState());
+          System.out.println("VendorError: " + ex.getErrorCode());
+      }
+	}
 
 }

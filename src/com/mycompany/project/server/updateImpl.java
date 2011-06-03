@@ -48,4 +48,11 @@ public class updateImpl extends RemoteServiceServlet implements update {
 	public Person[] person_suchen(String vorname, String nachname, String institut, String titel){
 		return DBconn.searchPerson(vorname, nachname, institut, titel);
 	}
+	public void person_loeschen(String pid){
+		DBconn.deletePerson(pid);
+	}
+	public void person_aendern(String pid,String vorname,String nachname,String email,String telefon,String institut,String titel){
+		DBconn.updatePerson(pid,vorname, nachname, email, telefon, institut, titel);
+	}
+
 }

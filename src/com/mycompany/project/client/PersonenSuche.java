@@ -57,7 +57,7 @@ public class PersonenSuche extends PopupPanel {
 							radiobuttons[i-1] = new RadioButton("choice");
 							radiobuttons[i-1].setFormValue(""+result[i-1].id);
 							Personen.ergebnisGrid.setWidget(i, 0, radiobuttons[i-1]);
-							Personen.ergebnisGrid.setText(i, 2, ""+result[i-1].kid);
+							Personen.ergebnisGrid.setText(i, 2, ""+result[i-1].kid+" "+(i-1));
 							Personen.ergebnisGrid.setText(i, 3, result[i-1].vorname);
 							Personen.ergebnisGrid.setText(i, 4, result[i-1].nachname);
 							Personen.ergebnisGrid.setText(i, 5, result[i-1].email);
@@ -69,8 +69,6 @@ public class PersonenSuche extends PopupPanel {
 								@Override
 								public void onClick(ClickEvent event) {
 									selectedId = ((RadioButton)event.getSource()).getFormValue();
-									System.out.println("hurr"+selectedId);
-									
 								}
 							});
 						}

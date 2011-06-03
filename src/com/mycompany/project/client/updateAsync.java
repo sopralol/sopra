@@ -17,6 +17,7 @@ public interface updateAsync {
 	
 	void person_einfuegen(String vorname,String nachname,String email,String telefon,String institut,String titel,AsyncCallback<Void> callback);
 	void person_suchen(String vorname, String nachname, String institut, String titel, AsyncCallback<Person[]> callback);
-
+	void person_loeschen(String pid, AsyncCallback<Void> callback);
+	void person_aendern(String pid,String vorname,String nachname,String email,String telefon,String institut,String titel,AsyncCallback<Void> callback);
 
 }

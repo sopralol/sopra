@@ -4,6 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.mycompany.project.server.DBconn;
 
 
 @RemoteServiceRelativePath("update")
@@ -20,7 +21,8 @@ public interface update extends RemoteService {
 	
 	void person_einfuegen(String vorname,String nachname,String email,String telefon,String institut,String titel);
 	Person[] person_suchen(String vorname, String nachname, String institut, String titel);
-
+	void person_loeschen(String pid);
+	void person_aendern(String pid,String vorname,String nachname,String email,String telefon,String institut,String titel);
 	
 	
 	
