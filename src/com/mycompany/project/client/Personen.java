@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Personen extends PopupPanel {
-	static Grid ergebnisGrid;
+	static Grid ergebnisGrid = new Grid();
 	static VerticalPanel verticalpanel = new VerticalPanel();
 	static ScrollPanel scrollpanel = new ScrollPanel();
 	static HorizontalPanel horizontalpanel = new HorizontalPanel();

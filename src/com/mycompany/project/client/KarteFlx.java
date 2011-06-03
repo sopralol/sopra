@@ -21,7 +21,7 @@ public class KarteFlx extends Composite{
 	static SimpleLayoutPanel a=new SimpleLayoutPanel();
 	static String niveau="Niveau1";
 	static int i=0;
-	private MapWidget map;
+	MapWidget map;
 	public KarteFlx(){
 		
 		map = new MapWidget(LatLng.newInstance(33.7814790, -84.3880580),2);
@@ -136,6 +136,8 @@ public class KarteFlx extends Composite{
 	    MapType  mapNiv5=new MapType(new TileLayer[] {tileLayer5},
 		        new MercatorProjection(20), "Niveau 5");
 	    map.addMapType(mapNiv5);
+	    map.setCurrentMapType(mapNiv2);
+	    map.setZoomLevel(1);
 	    
 //	    MapType Niveau2 = 
 //	    MapType Niveau3 = new MapType(new TileLayer[] {tileLayer},

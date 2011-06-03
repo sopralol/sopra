@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.mysql.jdbc.log.Log;
 
@@ -15,7 +16,7 @@ public class PersonenSuche extends PopupPanel {
 	static TextBox txtNachname = new TextBox();
 	static TextBox txtInstitut = new TextBox();
 	static TextBox txtTitel = new TextBox();
-
+	static String selectedId = "";
 	public PersonenSuche() {
 		super();
 		setSize("120px", "350px");
@@ -49,17 +50,29 @@ public class PersonenSuche extends PopupPanel {
 					public void onSuccess(Person[] result) {
 						System.out.println(""+result.length);
 						Personen.scrollpanel.remove(Personen.ergebnisGrid);
-						
-						Personen.ergebnisGrid = new Grid(result.length, 8);
-						for (int i=0; i<result.length;i++){
-							Personen.ergebnisGrid.setText(i, 0, ""+result[i].id);
-							Personen.ergebnisGrid.setText(i, 1, ""+result[i].kid);
-							Personen.ergebnisGrid.setText(i, 2, result[i].vorname);
-							Personen.ergebnisGrid.setText(i, 3, result[i].nachname);
-							Personen.ergebnisGrid.setText(i, 4, result[i].email);
-							Personen.ergebnisGrid.setText(i, 5, result[i].telefon);
-							Personen.ergebnisGrid.setText(i, 6, result[i].institut);
-							Personen.ergebnisGrid.setText(i, 7, result[i].titel);
+						RadioButton[] radiobuttons = new RadioButton[result.length];
+						Personen.ergebnisGrid = new Grid(result.length+1, 9);
+						//TODO: Formatieren ihr wichser
+						for (int i=1; i<result.length+1;i++){
+							radiobuttons[i-1] = new RadioButton("choice");
+							radiobuttons[i-1].setFormValue(""+result[i-1].id);
+							Personen.ergebnisGrid.setWidget(i, 0, radiobuttons[i-1]);
+							Personen.ergebnisGrid.setText(i, 2, ""+result[i-1].kid);
+							Personen.ergebnisGrid.setText(i, 3, result[i-1].vorname);
+							Personen.ergebnisGrid.setText(i, 4, result[i-1].nachname);
+							Personen.ergebnisGrid.setText(i, 5, result[i-1].email);
+							Personen.ergebnisGrid.setText(i, 6, result[i-1].telefon);
+							Personen.ergebnisGrid.setText(i, 7, result[i-1].institut);
+							Personen.ergebnisGrid.setText(i, 8, result[i-1].titel);
+							radiobuttons[i-1].addClickHandler(new ClickHandler() {
+								
+								@Override
+								public void onClick(ClickEvent event) {
+									selectedId = ((RadioButton)event.getSource()).getFormValue();
+									System.out.println("hurr"+selectedId);
+									
+								}
+							});
 						}
 						
 						Personen.scrollpanel.add(Personen.ergebnisGrid);

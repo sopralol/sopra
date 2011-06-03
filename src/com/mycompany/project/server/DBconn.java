@@ -216,6 +216,7 @@ public abstract class DBconn {
 				toggle = true;
 			}
 			String query="select * from personen where ("+clause+");";
+			System.out.println(clause);
 			Statement stmt=conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			rs.last();
