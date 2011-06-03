@@ -1,4 +1,4 @@
-/*package com.mycompany.project.unused;
+/*olololpackage com.mycompany.project.unused;
 
 import com.google.gwt.maps.client.Copyright;
 import com.google.gwt.maps.client.CopyrightCollection;
