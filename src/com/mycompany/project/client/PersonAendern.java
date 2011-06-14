@@ -29,12 +29,12 @@ public class PersonAendern extends PopupPanel {
 		Label lblTitel = new Label("Titel:");
 		Label lblTelefon = new Label("Telefon:");
 		Label lblEmail = new Label("E-Mail:");
-		lblVorname.setText(vorname);
-		lblNachname.setText(nachname);
-		lblInstitut.setText(institut);
-		lblTitel.setText(titel);
-		lblTelefon.setText(telefon);
-		lblEmail.setText(email);
+		txtVorname.setText(vorname);
+		txtNachname.setText(nachname);
+		txtInstitut.setText(institut);
+		txtTitel.setText(titel);
+		txtTelefon.setText(telefon);
+		txtEmail.setText(email);
 		Button btnSpeichern = new Button("Speichern");
 		Button btnAbbrechen= new Button("Abbrechen");
 		Grid grid = new Grid(7, 2);

@@ -10,12 +10,13 @@ import com.mycompany.project.server.DBconn;
 @RemoteServiceRelativePath("update")
 public interface update extends RemoteService {
 	void knoten_einfuegen(double lat,double lng,int typ,int niveau);
-	void knoten_loeschen(double lat, double lng);
+	void knoten_loeschen(double lat, double lng,int niv);
+	void knoten_loeschen_all(double lat, double lng);
 	Knoten[] knoten_auslesen(int niveau);	
 	Knoten[] knoten_auslesennot(int niveau,double lat, double lng);
 	
 	void kante_einfuegen(double lat1,double lng1,double lat2,double lng2,int gewicht,int niveau);
-	void kante_loeschen(double lat1,double lng1,double lat2,double lng2);
+	void kante_loeschen(double lat1,double lng1,double lat2,double lng2, int niveau);
 	Kante[] kanten_auslesen(int niveau);
 	Kante[] kanten_auslesennot(int niveau,double lat, double lng);
 	

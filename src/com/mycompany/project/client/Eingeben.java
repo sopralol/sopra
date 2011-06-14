@@ -1,6 +1,10 @@
 package com.mycompany.project.client;
 
+import com.google.gwt.uibinder.elementparsers.ListBoxParser;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -29,22 +33,26 @@ import com.google.gwt.maps.client.overlay.Polyline;
 import com.google.gwt.maps.client.overlay.PolylineOptions;
 
 
-//TODO schliesen
-public class Eingeben extends PopupPanel {
+public class Eingeben extends PopupPanel{
 
 	static CheckBox chckbxMitName = new CheckBox("Mit Name");
 	static CheckBox chckbxMitAbteilung = new CheckBox("Mit Abteilung");
 	static RadioButton radiobtnBearbeiten = new RadioButton("weg", "Bearbeiten");
 	static RadioButton radiobtnEintragen = new RadioButton("weg", "Eintragen");
 	static RadioButton radiobtnLoeschen = new RadioButton("weg", "Loeschen");
+	static RadioButton radiobtnTreppe = new RadioButton("weg", "Treppe eintragen");
+	static ListBox listboxVon = new ListBox();
+	static ListBox listboxBis = new ListBox();
 	static AbsolutePanel absolutePanel = new AbsolutePanel();
 	static boolean insert=true;
+	static boolean lasttreppe= false;
 	static Grid grid = new Grid(3, 3);
 	static private MapWidget map;
 	static LatLng oldlatln;
 	static Marker oldmarker;
 	static PolylineOptions po = PolylineOptions.newInstance();
 	static MarkerOptions mox = MarkerOptions.newInstance();
+	static MarkerOptions mot = MarkerOptions.newInstance();
 	static ClickHandler radiobtnch = new ClickHandler() {
 		
 		@Override
@@ -70,7 +78,7 @@ public class Eingeben extends PopupPanel {
 		public void onClick(MarkerClickEvent event) {
 			if (radiobtnLoeschen.getValue()){
 				LatLng del = event.getSender().getLatLng();
-				update.Util.getInstance().knoten_loeschen(del.getLatitude(), del.getLongitude(), new AsyncCallback<Void>() {
+				update.Util.getInstance().knoten_loeschen(del.getLatitude(), del.getLongitude(), currentNiveau(),new AsyncCallback<Void>() {
 					
 					@Override
 					public void onSuccess(Void result) {
@@ -81,9 +89,8 @@ public class Eingeben extends PopupPanel {
 					}
 				});
 				refreshMap(currentNiveau(), del);
-				//TODO: overlay aktualisieren, kanten wegwerfen.
 			} else if (radiobtnBearbeiten.getValue()) {
-//				map.getInfoWindow().open(event.getSender(), new InfoWindowContent(new KnotenInfo()));
+				map.getInfoWindow().open(event.getSender(), new InfoWindowContent(new KnotenInfo()));
 			} else if (radiobtnEintragen.getValue() && oldlatln == null){
 				oldlatln = event.getSender().getLatLng();
 				map.removeOverlay(event.getSender());
@@ -113,9 +120,21 @@ public class Eingeben extends PopupPanel {
 				map.addOverlay(neuerweg);
 				//alten markierten marker zuruecksetzen
 				map.removeOverlay(oldmarker);
-				Marker tmp = new Marker(oldlatln);
-				tmp.addMarkerClickHandler(mch);
-				map.addOverlay(tmp);
+				if(lasttreppe){
+					Icon iconT = Icon.newInstance("markerT.png");
+					iconT.setIconAnchor(Point.newInstance(9, 34));
+					mot.setIcon(iconT);
+					Marker tmp = new Marker(oldlatln,mot);
+					tmp.addMarkerClickHandler(mcht);
+					map.addOverlay(tmp);
+					
+				} else{
+					Marker tmp = new Marker(oldlatln);
+					tmp.addMarkerClickHandler(mch);
+					map.addOverlay(tmp);
+				}
+				lasttreppe=false;
+
 				//neuen marker markieren
 				map.removeOverlay(event.getSender());
 				oldmarker = new Marker(event.getSender().getLatLng(), mox);
@@ -125,14 +144,103 @@ public class Eingeben extends PopupPanel {
 			}
 		}
 	};
-	
+	static MarkerClickHandler mchxt = new MarkerClickHandler() {
+		
+		@Override
+		public void onClick(MarkerClickEvent event) {
+			map.removeOverlay(event.getSender());
+			Icon iconT = Icon.newInstance("markerT.png");
+			iconT.setIconAnchor(Point.newInstance(9, 34));
+			mot.setIcon(iconT);
+			Marker tmp = new Marker(event.getSender().getLatLng(), mot);
+			
+			tmp.addMarkerClickHandler(mcht);
+			map.addOverlay(tmp);
+			oldmarker = null;
+			oldlatln = null;
+		}
+	};
+	static MarkerClickHandler mcht = new MarkerClickHandler() {
+		
+		@Override
+		public void onClick(MarkerClickEvent event) {
+			if (radiobtnLoeschen.getValue()){
+				LatLng del = event.getSender().getLatLng();
+				update.Util.getInstance().knoten_loeschen_all(del.getLatitude(), del.getLongitude(), new AsyncCallback<Void>() {
+					
+					@Override
+					public void onSuccess(Void result) {
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+					}
+				});
+				refreshMap(currentNiveau(), del);
+
+			} else if (radiobtnBearbeiten.getValue()) {
+//				DO NOTHING
+			} else if (radiobtnEintragen.getValue() && oldlatln == null){
+				lasttreppe=true;
+				oldlatln = event.getSender().getLatLng();
+				map.removeOverlay(event.getSender());
+				Icon iconX = Icon.newInstance("markerX.png");
+				iconX.setIconAnchor(Point.newInstance(9, 34));
+				mox.setIcon(iconX);
+				Marker tmp = new Marker(oldlatln, mox);
+				tmp.addMarkerClickHandler(mchxt);
+				map.addOverlay(tmp);
+				oldmarker = tmp;
+				
+			} else if (radiobtnEintragen.getValue() && oldlatln != null){
+				//zeichne neuen weg
+				LatLng[] wegpunkte = {oldlatln,event.getSender().getLatLng()};
+				Polyline neuerweg = new Polyline(wegpunkte,"darkblue",7);
+				neuerweg.addPolylineClickHandler(pch);
+				update.Util.getInstance().kante_einfuegen(wegpunkte[0].getLatitude(), wegpunkte[0].getLongitude(),wegpunkte[1].getLatitude(), wegpunkte[1].getLongitude(), 1, currentNiveau(), new AsyncCallback<Void>() {
+					@Override
+					public void onSuccess(Void result) {
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+					}
+				});
+				//kante einzeichnen
+				map.addOverlay(neuerweg);
+				//alten markierten marker zuruecksetzen
+				map.removeOverlay(oldmarker);
+				if(lasttreppe){
+					Icon iconT = Icon.newInstance("markerT.png");
+					iconT.setIconAnchor(Point.newInstance(9, 34));
+					mot.setIcon(iconT);
+					Marker tmp = new Marker(oldlatln,mot);
+					tmp.addMarkerClickHandler(mcht);
+					map.addOverlay(tmp);
+					
+				} else{
+					Marker tmp = new Marker(oldlatln);
+					tmp.addMarkerClickHandler(mch);
+					map.addOverlay(tmp);
+				}
+				lasttreppe=true;
+				//neuen marker markieren
+				map.removeOverlay(event.getSender());
+				oldmarker = new Marker(event.getSender().getLatLng(), mox);
+				oldmarker.addMarkerClickHandler(mchxt);
+				map.addOverlay(oldmarker);
+				oldlatln = event.getSender().getLatLng();
+			
+			}
+		}
+	};
 	static PolylineClickHandler pch = new PolylineClickHandler() {
 		@Override
 		public void onClick(PolylineClickEvent event) {
 			if(radiobtnLoeschen.getValue()){
 				LatLng del1 = event.getSender().getVertex(0);
 				LatLng del2 = event.getSender().getVertex(1);
-				update.Util.getInstance().kante_loeschen(del1.getLatitude(), del1.getLongitude(),del2.getLatitude(), del2.getLongitude(), new AsyncCallback<Void>() {
+				update.Util.getInstance().kante_loeschen(del1.getLatitude(), del1.getLongitude(),del2.getLatitude(), del2.getLongitude(), currentNiveau(), new AsyncCallback<Void>() {
 					@Override
 					public void onSuccess(Void result) {
 					}
@@ -147,7 +255,6 @@ public class Eingeben extends PopupPanel {
 	};
 	
 	public Eingeben() {
-
 		super(true);
 		setSize("850px", "800px");
 		setWidget(absolutePanel);
@@ -174,6 +281,30 @@ public class Eingeben extends PopupPanel {
 					});
 					marker.addMarkerClickHandler(mch);
 					map.addOverlay(marker);					
+				} else if (radiobtnTreppe.getValue()){
+					
+					for (int i=listboxVon.getSelectedIndex()+1;i<=listboxBis.getSelectedIndex()+1;i++){
+						update.Util.getInstance().knoten_einfuegen(event.getLatLng().getLatitude(), event.getLatLng().getLongitude(), 2, i, new AsyncCallback<Void>() {
+							
+							@Override
+							public void onSuccess(Void result) {
+							}
+							
+							@Override
+							public void onFailure(Throwable caught) {	
+							}
+						});
+					}
+					if(currentNiveau()<=listboxBis.getSelectedIndex()+1 &&currentNiveau()>= listboxVon.getSelectedIndex()+1){
+						Icon iconT = Icon.newInstance("markerT.png");
+						iconT.setIconAnchor(Point.newInstance(9, 34));
+						mot.setIcon(iconT);
+						Marker marker = new Marker(event.getLatLng(), mot);
+						marker.addMarkerClickHandler(mcht);
+						map.addOverlay(marker);
+					}
+					
+					
 				}
 			}
 		});
@@ -194,15 +325,26 @@ public class Eingeben extends PopupPanel {
 		
 		radiobtnLoeschen.addClickHandler(radiobtnch);
 		radiobtnBearbeiten.addClickHandler(radiobtnch);
+		radiobtnTreppe.addClickHandler(radiobtnch);
+		listboxVon.addItem("Niv1");
+		listboxVon.addItem("Niv2");
+		listboxVon.addItem("Niv3");
+		listboxVon.addItem("Niv4");
+		listboxVon.addItem("Niv5");
+		listboxBis.addItem("Niv1");
+		listboxBis.addItem("Niv2");
+		listboxBis.addItem("Niv3");
+		listboxBis.addItem("Niv4");
+		listboxBis.addItem("Niv5");
+		listboxVon.setVisibleItemCount(1);
+		listboxBis.setVisibleItemCount(1);
+		
 		grid.setWidget(0, 0, radiobtnEintragen);
 		grid.setWidget(0, 1, radiobtnLoeschen);
 		grid.setWidget(0, 2, radiobtnBearbeiten);
-		
-//		grid.setWidget(1, 0, null);
-//		grid.setWidget(1, 1, chckbxMitName);
-//		grid.setWidget(1, 2, chckbxMitAbteilung);
-		
-		
+		grid.setWidget(1, 0, radiobtnTreppe);
+		grid.setWidget(1, 1, listboxVon);
+		grid.setWidget(1, 2, listboxBis);
 	}
 	private static void initMap (int niv){
 		map.clearOverlays();
@@ -215,9 +357,18 @@ public class Eingeben extends PopupPanel {
 			@Override
 			public void onSuccess(Knoten[] result) {
 				for (int i=0;i<result.length;i++){
-					Marker marker = new Marker(LatLng.newInstance(result[i].lat, result[i].lng));
-					marker.addMarkerClickHandler(mch);
-					map.addOverlay(marker);
+					if (result[i].typ==1){
+						Marker marker = new Marker(LatLng.newInstance(result[i].lat, result[i].lng));
+						marker.addMarkerClickHandler(mch);
+						map.addOverlay(marker);
+					} else if(result[i].typ==2){
+						Icon iconT = Icon.newInstance("markerT.png");
+						iconT.setIconAnchor(Point.newInstance(9, 34));
+						mot.setIcon(iconT);
+						Marker marker = new Marker(LatLng.newInstance(result[i].lat, result[i].lng),mot);
+						marker.addMarkerClickHandler(mcht);
+						map.addOverlay(marker);
+					}
 				}
 			}
 			
@@ -232,9 +383,18 @@ public class Eingeben extends PopupPanel {
 			@Override
 			public void onSuccess(Knoten[] result) {
 				for (int i=0;i<result.length;i++){
-					Marker marker = new Marker(LatLng.newInstance(result[i].lat, result[i].lng));
-					marker.addMarkerClickHandler(mch);
-					map.addOverlay(marker);
+					if (result[i].typ==1){
+						Marker marker = new Marker(LatLng.newInstance(result[i].lat, result[i].lng));
+						marker.addMarkerClickHandler(mch);
+						map.addOverlay(marker);
+					} else if(result[i].typ==2){
+						Icon iconT = Icon.newInstance("markerT.png");
+						iconT.setIconAnchor(Point.newInstance(9, 34));
+						mot.setIcon(iconT);
+						Marker marker = new Marker(LatLng.newInstance(result[i].lat, result[i].lng),mot);
+						marker.addMarkerClickHandler(mcht);
+						map.addOverlay(marker);
+					}
 				}
 			}
 			
@@ -287,6 +447,11 @@ public class Eingeben extends PopupPanel {
 			}
 		});
 	}
+	@Override
+	protected void onDetach() {
+		super.onDetach();
+		Window.Location.reload();
+	}
 	private static int currentNiveau(){
 		return Integer.parseInt(map.getCurrentMapType().getName(false).split(" ")[1]);
 //		String[] x = niv.split(" ");
@@ -297,6 +462,7 @@ public class Eingeben extends PopupPanel {
 	}
 	private static void delX(){
 		if (null != oldlatln){
+			lasttreppe=false;
 			map.removeOverlay(oldmarker);
 			oldmarker=null;
 			Marker tmp = new Marker(oldlatln);

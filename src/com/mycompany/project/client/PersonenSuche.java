@@ -12,12 +12,14 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.mysql.jdbc.log.Log;
 
 public class PersonenSuche extends PopupPanel {
+
 	static TextBox txtVorname = new TextBox();
 	static TextBox txtNachname = new TextBox();
 	static TextBox txtInstitut = new TextBox();
 	static TextBox txtTitel = new TextBox();
 	static String selectedId = "";
 	public PersonenSuche() {
+		
 		super();
 		setSize("120px", "350px");
 		
@@ -44,6 +46,7 @@ public class PersonenSuche extends PopupPanel {
 			
 			@Override
 			public void onClick(ClickEvent event) {
+				hide();
 				update.Util.getInstance().person_suchen(txtVorname.getValue(), txtNachname.getValue(), txtInstitut.getValue(), txtTitel.getValue(), new AsyncCallback<Person[]>() {
 					
 					@Override
@@ -51,19 +54,27 @@ public class PersonenSuche extends PopupPanel {
 						System.out.println(""+result.length);
 						Personen.scrollpanel.remove(Personen.ergebnisGrid);
 						RadioButton[] radiobuttons = new RadioButton[result.length];
-						Personen.ergebnisGrid = new Grid(result.length+1, 9);
-						//TODO: Formatieren ihr wichser
+						
+						Personen.ergebnisGrid = new Grid(result.length+1, 7);
+						Personen.ergebnisGrid.setBorderWidth(1);
+						Personen.ergebnisGrid.setWidth("90%");
+						Personen.ergebnisGrid.setText(0, 1, "Vorname");
+						Personen.ergebnisGrid.setText(0, 2, "Nachname");
+						Personen.ergebnisGrid.setText(0, 3, "E-Mail");
+						Personen.ergebnisGrid.setText(0, 4, "Telefon");
+						Personen.ergebnisGrid.setText(0, 5, "Institut");
+						Personen.ergebnisGrid.setText(0, 6, "Titel");
 						for (int i=1; i<result.length+1;i++){
 							radiobuttons[i-1] = new RadioButton("choice");
-							radiobuttons[i-1].setFormValue(""+result[i-1].id);
+							radiobuttons[i-1].setFormValue(""+result[i-1].id+" "+i);
 							Personen.ergebnisGrid.setWidget(i, 0, radiobuttons[i-1]);
-							Personen.ergebnisGrid.setText(i, 2, ""+result[i-1].kid+" "+(i-1));
-							Personen.ergebnisGrid.setText(i, 3, result[i-1].vorname);
-							Personen.ergebnisGrid.setText(i, 4, result[i-1].nachname);
-							Personen.ergebnisGrid.setText(i, 5, result[i-1].email);
-							Personen.ergebnisGrid.setText(i, 6, result[i-1].telefon);
-							Personen.ergebnisGrid.setText(i, 7, result[i-1].institut);
-							Personen.ergebnisGrid.setText(i, 8, result[i-1].titel);
+//							Personen.ergebnisGrid.setText(i, 1, "leer"/*""+result[i-1].kid+" "+(i-1)*/);
+							Personen.ergebnisGrid.setText(i, 1, result[i-1].vorname);
+							Personen.ergebnisGrid.setText(i, 2, result[i-1].nachname);
+							Personen.ergebnisGrid.setText(i, 3, result[i-1].email);
+							Personen.ergebnisGrid.setText(i, 4, result[i-1].telefon);
+							Personen.ergebnisGrid.setText(i, 5, result[i-1].institut);
+							Personen.ergebnisGrid.setText(i, 6, result[i-1].titel);
 							radiobuttons[i-1].addClickHandler(new ClickHandler() {
 								
 								@Override
@@ -96,5 +107,6 @@ public class PersonenSuche extends PopupPanel {
 			}
 		});
 
+		
 	}
 }

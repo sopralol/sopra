@@ -2,6 +2,7 @@ package com.mycompany.project.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
@@ -21,10 +22,13 @@ public class Personen extends PopupPanel {
 	static Button buttonEinfuegen = new Button("Einfuegen");
 	static Button buttonAendern = new Button("Aendern");
 	static Button buttonLoeschen = new Button("Loeschen");
+
 	
 	
 	public Personen(){
-		super();
+		super(true);
+		verticalpanel = new VerticalPanel();
+		scrollpanel = new ScrollPanel();
 		setSize("850px", "800px");
 		
 		
@@ -33,6 +37,8 @@ public class Personen extends PopupPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				new PersonenSuche().center();
+
+				
 			}
 		});
 		buttonEinfuegen.addClickHandler(new ClickHandler() {
@@ -65,9 +71,10 @@ public class Personen extends PopupPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				int gridid = Integer.parseInt(PersonenSuche.selectedId.split(" ")[1]);
-				//TODO get data from grid insert below;
-				//new PersonAendern(PersonenSuche.selectedId.split(" ")[0], vorname, nachname, email, telefon, institut, titel)
-				
+				String perid = PersonenSuche.selectedId.split(" ")[0];
+				new PersonAendern(perid, Personen.ergebnisGrid.getText(gridid, 1),  Personen.ergebnisGrid.getText(gridid, 2), 
+						 Personen.ergebnisGrid.getText(gridid, 3), Personen.ergebnisGrid.getText(gridid, 4),
+						 Personen.ergebnisGrid.getText(gridid, 5),  Personen.ergebnisGrid.getText(gridid, 6)).center();				
 			}
 		});
 		
@@ -83,5 +90,8 @@ public class Personen extends PopupPanel {
 		add(verticalpanel);		
 		
 	}
-	
+	protected void onDetach() {
+		super.onDetach();
+		Window.Location.reload();
+	}
 }

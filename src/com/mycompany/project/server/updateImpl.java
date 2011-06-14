@@ -14,7 +14,10 @@ public class updateImpl extends RemoteServiceServlet implements update {
 		Knoten x = new Knoten(lat, lng, typ, niveau);
 		DBconn.saveKnoten(x);
 	}
-	public void knoten_loeschen(double lat,double lng){
+	public void knoten_loeschen(double lat,double lng,int niv){
+		DBconn.deleteKnoten(lat,lng,niv);
+	}
+	public void knoten_loeschen_all(double lat,double lng){
 		DBconn.deleteKnoten(lat,lng);
 	}
 	public Knoten[] knoten_auslesen (int niv){
@@ -28,8 +31,8 @@ public class updateImpl extends RemoteServiceServlet implements update {
 	
 	
 	
-	public void kante_loeschen(double lat1,double lng1, double lat2,double lng2){
-		DBconn.deleteKante(lat1,lng1,lat2,lng2);
+	public void kante_loeschen(double lat1,double lng1, double lat2,double lng2, int niv){
+		DBconn.deleteKante(lat1,lng1,lat2,lng2,niv);
 	}
 	public void kante_einfuegen(double lat1, double lng1,double lat2, double lng2, int gewicht, int niveau) {
 		Kante x = new Kante(lat1, lng1, lat2, lng2, gewicht, niveau);
