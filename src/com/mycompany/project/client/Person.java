@@ -25,4 +25,9 @@ public class Person implements IsSerializable {
 		this.institut = institut;
 		this.titel = titel;
 	}
+	
+	@Override
+	public String toString() {
+		return vorname+" "+nachname+" "+titel;
+	}
 }

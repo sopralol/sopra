@@ -3,6 +3,7 @@ package com.mycompany.project.server;
 import com.mycompany.project.client.Kante;
 import com.mycompany.project.client.Knoten;
 import com.mycompany.project.client.Person;
+import com.mycompany.project.client.Raum;
 import com.mycompany.project.client.update;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -57,5 +58,10 @@ public class updateImpl extends RemoteServiceServlet implements update {
 	public void person_aendern(String pid,String vorname,String nachname,String email,String telefon,String institut,String titel){
 		DBconn.updatePerson(pid,vorname, nachname, email, telefon, institut, titel);
 	}
-
+	public Raum getRaumInfoByLatLng(double lat, double lng, int niveau){
+		return DBconn.getRaumInfoByLatLng(lat, lng, niveau);
+	}
+	public Person[] getPersonbyRID(int rid){
+		return DBconn.getPersonenbyRID(rid);
+	}
 }

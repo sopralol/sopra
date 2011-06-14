@@ -20,5 +20,8 @@ public interface updateAsync {
 	void person_suchen(String vorname, String nachname, String institut, String titel, AsyncCallback<Person[]> callback);
 	void person_loeschen(String pid, AsyncCallback<Void> callback);
 	void person_aendern(String pid,String vorname,String nachname,String email,String telefon,String institut,String titel,AsyncCallback<Void> callback);
+	
+	void getRaumInfoByLatLng(double lat, double lng, int niveau, AsyncCallback<Raum> callback);
+	void getPersonbyRID(int rid, AsyncCallback<Person[]> callback);
 
 }

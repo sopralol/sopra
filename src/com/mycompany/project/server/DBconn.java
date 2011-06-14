@@ -4,6 +4,7 @@ import java.sql.*;
 import com.mycompany.project.client.Kante;
 import com.mycompany.project.client.Knoten;
 import com.mycompany.project.client.Person;
+import com.mycompany.project.client.Raum;
 
 public abstract class DBconn {
 	
@@ -154,7 +155,7 @@ public abstract class DBconn {
 	public static Kante[] readKante(int niveau){
 		try {
 			 Connection conn = getConnection();
-			 String query="select * from kanten where niveau=\""+niveau+"\"";
+			 String query="select * from kanten where niveau="+niveau;
 			 Statement stmt=conn.createStatement();
 			 ResultSet rs = stmt.executeQuery(query);
 			 rs.last();
@@ -278,5 +279,76 @@ public abstract class DBconn {
       }
 	}
 
-	public static Person[] getRaumInfoByLatLng
+	public static Raum getRaumInfoByLatLng(double lat, double lng, int niveau){
+		try {
+			 Connection conn = getConnection();
+			 String insert = "where knoten.lat="+lat+" and knoten.lng="+lng+" and knoten.niveau="+niveau+" and knoten.id=raeume.kid;";
+			 String query="select raeume.id,knoten.id, raeume.name,raeume.typ from knoten,raeume "+insert;
+			 System.out.println("DBconn.gRIBLL(): doing it!");
+			 Statement stmt=conn.createStatement();
+			 System.out.println("DBconn.gRIBLL(): did it!");
+			 ResultSet rs = stmt.executeQuery(query);
+			 System.out.println("DBconn.gRIBLL(): Yussss!");
+			 if(rs.first()){
+				 System.out.println("first()");
+				 return new Raum(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4));
+			 } else {
+				 System.out.println("DBconn.gRIBLL(): else");
+				 Connection conn1 = getConnection();
+				 String insert1 = "where lat="+lat+" and lng="+lng+" and niveau="+niveau+";";
+				 String query1="select id from knoten "+insert1;
+				 Statement stmt1=conn1.createStatement();
+				 System.out.println("DBconn.gRIBLL(): else1");
+				 ResultSet rs1 = stmt1.executeQuery(query1);
+				 System.out.println("DBconn.gRIBLL(): else2");
+				 rs1.next();
+				 System.out.println("DBconn.gRIBLL(): int="+rs1.getInt(1));
+				 return new Raum(rs1.getInt(1));
+			 }
+		} catch (SQLException ex) {
+
+			    System.out.println("SQLException: " + ex.getMessage());
+			    System.out.println("SQLState: " + ex.getSQLState());
+			    System.out.println("VendorError: " + ex.getErrorCode());
+			    return null;
+		}
+	}
+	public static Raum setRaumInfoByLatLng(double lat, double lng, int niveau, int typ, String name,int kid){
+		try {
+			 Connection conn = getConnection();
+			 String insert = "where knoten.lat="+lat+" and knoten.lng="+lng+" and knoten.niveau="+niveau+" and knoten.id=raeume.kid;";
+			 String query="select raeume.id,knoten.id, raeume.name,raeume.typ from knoten,raeume "+insert;
+			 Statement stmt=conn.createStatement();
+			 ResultSet rs = stmt.executeQuery(query);
+			 return new Raum(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4));
+		} catch (SQLException ex) {
+		     System.out.println("SQLException: " + ex.getMessage());
+		     System.out.println("SQLState: " + ex.getSQLState());
+		     System.out.println("VendorError: " + ex.getErrorCode());
+		     return null;
+		}
+	}
+	public static Person[] getPersonenbyRID(int rid){
+		try {
+			 Connection conn = getConnection();
+			 String insert = "where raumid="+rid+";";
+			 String query="select * from personen "+insert;
+			 Statement stmt=conn.createStatement();
+			 ResultSet rs = stmt.executeQuery(query);
+			 rs.last();
+				Person[] result = new Person[rs.getRow()];
+				rs.beforeFirst();
+				int i=0;
+				while(rs.next()){
+					result[i]= new Person(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8));
+					i++;
+				}
+				return result;
+		} catch (SQLException ex) {
+		     System.out.println("SQLException: " + ex.getMessage());
+		     System.out.println("SQLState: " + ex.getSQLState());
+		     System.out.println("VendorError: " + ex.getErrorCode());
+		     return null;
+		}
+	}
 }

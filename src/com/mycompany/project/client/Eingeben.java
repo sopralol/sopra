@@ -90,7 +90,8 @@ public class Eingeben extends PopupPanel{
 				});
 				refreshMap(currentNiveau(), del);
 			} else if (radiobtnBearbeiten.getValue()) {
-				map.getInfoWindow().open(event.getSender(), new InfoWindowContent(new KnotenInfo()));
+				map.getInfoWindow().open(event.getSender(), new InfoWindowContent(new KnotenInfo(event.getSender().getLatLng(),currentNiveau())));
+				//map.getInfoWindow().open(event.getSender(), new InfoWindowContent(new TestInfoWinContent()));
 			} else if (radiobtnEintragen.getValue() && oldlatln == null){
 				oldlatln = event.getSender().getLatLng();
 				map.removeOverlay(event.getSender());
