@@ -44,6 +44,22 @@ public abstract class DBconn {
            System.out.println("VendorError: " + ex.getErrorCode());
        }
 	}
+	public static void deleteKnoten(double lat, double lng,int niv){
+		try {
+			 Connection conn = getConnection();
+			 String query="delete from knoten where lat="+lat+"and lng="+lng+" and niveau="+niv+";";
+			 Statement stmt=conn.createStatement();
+			 stmt.executeUpdate(query);
+			 query="delete from kanten where lat1="+lat+"and lng1="+lng+" and niveau="+niv+";";
+			 stmt.executeUpdate(query);
+			 query="delete from kanten where lat2="+lat+"and lng2="+lng+" and niveau="+niv+";";
+			 stmt.executeUpdate(query);
+       } catch (SQLException ex) {
+           System.out.println("SQLException: " + ex.getMessage());
+           System.out.println("SQLState: " + ex.getSQLState());
+           System.out.println("VendorError: " + ex.getErrorCode());
+       }
+	}
 	
 	public static Knoten[] readKnoten(int niveau){
 		try {
@@ -158,10 +174,10 @@ public abstract class DBconn {
           return null;
       }
 	}
-	public static void deleteKante(double lat1, double lng1, double lat2, double lng2) {
+	public static void deleteKante(double lat1, double lng1, double lat2, double lng2, int niv) {
 		try {
 			 Connection conn = getConnection();
-			 String query="delete from kanten where lat1="+lat1+"and lng1="+lng1+"and lat2="+lat2+"and lng2="+lng2+";";
+			 String query="delete from kanten where lat1="+lat1+"and lng1="+lng1+"and lat2="+lat2+"and lng2="+lng2+" and niveau="+niv+";";
 			 Statement stmt=conn.createStatement();
 			 stmt.executeUpdate(query);
       } catch (SQLException ex) {
@@ -262,4 +278,5 @@ public abstract class DBconn {
       }
 	}
 
+	public static Person[] getRaumInfoByLatLng
 }
