@@ -22,6 +22,11 @@ public interface updateAsync {
 	void person_aendern(String pid,String vorname,String nachname,String email,String telefon,String institut,String titel,AsyncCallback<Void> callback);
 	
 	void getRaumInfoByLatLng(double lat, double lng, int niveau, AsyncCallback<Raum> callback);
+	void raum_aendern(int typ, String name, int id, AsyncCallback<Void> callback);
+	void raum_einfuegen(int typ, String name, int kid, AsyncCallback<Integer> callback);
+	
 	void getPersonbyRID(int rid, AsyncCallback<Person[]> callback);
+	void person_zu_raum(int pid, int rid,AsyncCallback<Void> callback);
+	void person_von_raum(int pid,AsyncCallback<Void> callback);
 
 }

@@ -26,7 +26,12 @@ public interface update extends RemoteService {
 	void person_aendern(String pid,String vorname,String nachname,String email,String telefon,String institut,String titel);
 	
 	Raum getRaumInfoByLatLng(double lat, double lng, int niveau);
+	void raum_aendern(int typ, String name, int id );
+	Integer raum_einfuegen(int typ, String name, int kid );
+	
 	Person[] getPersonbyRID(int rid);
+	void person_zu_raum(int pid, int rid);
+	void person_von_raum(int pid);
 
 	
 	

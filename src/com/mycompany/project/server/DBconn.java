@@ -290,7 +290,7 @@ public abstract class DBconn {
 			 ResultSet rs = stmt.executeQuery(query);
 			 System.out.println("DBconn.gRIBLL(): Yussss!");
 			 if(rs.first()){
-				 System.out.println("first()");
+				 System.out.println("DBconn.gRIBLL(): first()");
 				 return new Raum(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4));
 			 } else {
 				 System.out.println("DBconn.gRIBLL(): else");
@@ -313,21 +313,39 @@ public abstract class DBconn {
 			    return null;
 		}
 	}
-	public static Raum setRaumInfoByLatLng(double lat, double lng, int niveau, int typ, String name,int kid){
+	public static Integer insertRaumInfo(int typ, String name,int kid){
 		try {
 			 Connection conn = getConnection();
-			 String insert = "where knoten.lat="+lat+" and knoten.lng="+lng+" and knoten.niveau="+niveau+" and knoten.id=raeume.kid;";
-			 String query="select raeume.id,knoten.id, raeume.name,raeume.typ from knoten,raeume "+insert;
+			 String insert = "values ("+kid+",'"+name+"',"+typ+");";
+			 String query="insert into raeume (kid,name,typ) "+insert;
 			 Statement stmt=conn.createStatement();
-			 ResultSet rs = stmt.executeQuery(query);
-			 return new Raum(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4));
+			 stmt.executeUpdate(query);
+			 String query1 = "select id from raeume where kid="+kid+";";
+			 ResultSet rs = stmt.executeQuery(query1);
+			 rs.next();
+			 System.out.println("DBcon insertRaumInfo(): raumid="+rs.getInt(1));
+			 return rs.getInt(1);
 		} catch (SQLException ex) {
 		     System.out.println("SQLException: " + ex.getMessage());
 		     System.out.println("SQLState: " + ex.getSQLState());
 		     System.out.println("VendorError: " + ex.getErrorCode());
-		     return null;
+		     return -1;
 		}
 	}
+	public static void updateRaumInfo(int typ, String name,int id){
+		try {
+			 Connection conn = getConnection();
+			 String insert = "name='"+name+"', typ="+typ;
+			 String query="update raeume set "+insert+" where id="+id+";";
+			 Statement stmt=conn.createStatement();
+			 stmt.executeUpdate(query);
+		} catch (SQLException ex) {
+		     System.out.println("SQLException: " + ex.getMessage());
+		     System.out.println("SQLState: " + ex.getSQLState());
+		     System.out.println("VendorError: " + ex.getErrorCode());
+		}
+	}
+	
 	public static Person[] getPersonenbyRID(int rid){
 		try {
 			 Connection conn = getConnection();
@@ -351,4 +369,29 @@ public abstract class DBconn {
 		     return null;
 		}
 	}
+	public static void addPersonToRaum(int pid,int rid){
+		try {
+			 Connection conn = getConnection();
+			 String query="update personen set raumid="+rid+" where id="+pid+";";
+			 Statement stmt=conn.createStatement();
+			 stmt.executeUpdate(query);
+		} catch (SQLException ex) {
+		     System.out.println("SQLException: " + ex.getMessage());
+		     System.out.println("SQLState: " + ex.getSQLState());
+		     System.out.println("VendorError: " + ex.getErrorCode());
+		}
+	}
+	public static void removePersonFromRaum(int pid){
+		try {
+			 Connection conn = getConnection();
+			 String query="update personen set raumid=NULL where id="+pid+";";
+			 Statement stmt=conn.createStatement();
+			 stmt.executeUpdate(query);
+		} catch (SQLException ex) {
+		     System.out.println("SQLException: " + ex.getMessage());
+		     System.out.println("SQLState: " + ex.getSQLState());
+		     System.out.println("VendorError: " + ex.getErrorCode());
+		}
+	}
+	
 }

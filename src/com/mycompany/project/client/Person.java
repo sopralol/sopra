@@ -28,6 +28,6 @@ public class Person implements IsSerializable {
 	
 	@Override
 	public String toString() {
-		return vorname+" "+nachname+" "+titel;
+		return vorname+" "+nachname+" "+titel+" "+id;
 	}
 }

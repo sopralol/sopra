@@ -18,6 +18,7 @@ public class Raum implements IsSerializable {
 	public Raum(int kid) {
 		super();
 		this.kid = kid;
+		this.id=-1;
 		this.name = null;
 	}
 	

@@ -61,6 +61,19 @@ public class updateImpl extends RemoteServiceServlet implements update {
 	public Raum getRaumInfoByLatLng(double lat, double lng, int niveau){
 		return DBconn.getRaumInfoByLatLng(lat, lng, niveau);
 	}
+	public void raum_aendern(int typ, String name, int id ){
+		DBconn.updateRaumInfo(typ, name, id);
+	}
+	public Integer raum_einfuegen(int typ, String name, int kid ){
+		return DBconn.insertRaumInfo(typ, name, kid);
+	}
+	
+	public void person_zu_raum(int pid, int rid){
+		DBconn.addPersonToRaum(pid, rid);
+	}
+	public void person_von_raum(int pid){
+		DBconn.removePersonFromRaum(pid);
+	}
 	public Person[] getPersonbyRID(int rid){
 		return DBconn.getPersonenbyRID(rid);
 	}
