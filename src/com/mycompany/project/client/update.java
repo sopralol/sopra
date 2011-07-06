@@ -5,7 +5,13 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.mycompany.project.server.DBconn;
-
+/**
+ * enthaelt Methoden fuer RPC Calls
+ * @author Martin Zellner
+ * @author David Schmid
+ * 
+ * 
+ */
 
 @RemoteServiceRelativePath("update")
 public interface update extends RemoteService {
@@ -33,6 +39,8 @@ public interface update extends RemoteService {
 	void person_zu_raum(int pid, int rid);
 	void person_von_raum(int pid);
 
+	String gib_url();
+	void mach_url(String url);
 	
 	
 	

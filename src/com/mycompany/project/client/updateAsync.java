@@ -2,7 +2,12 @@ package com.mycompany.project.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-
+/**
+ * enthaelt Asynchrone Methoden fuer RPC Calls
+ * @author David Schmid
+ * @author Martin Zellner
+ *
+ */
 public interface updateAsync {
 	void knoten_einfuegen(double lat,double lng,int typ,int niveau, AsyncCallback<Void> callback);
 	void knoten_loeschen(double lat, double lng,int niv, AsyncCallback<Void> callback);
@@ -29,4 +34,6 @@ public interface updateAsync {
 	void person_zu_raum(int pid, int rid,AsyncCallback<Void> callback);
 	void person_von_raum(int pid,AsyncCallback<Void> callback);
 
+	void gib_url(AsyncCallback<String> callback);
+	void mach_url(String url,AsyncCallback<Void> callback);
 }

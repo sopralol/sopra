@@ -12,6 +12,13 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+/**
+ * Auswahl der Personenfunktionen.
+ * @author Martin Zellner
+ * @author David Schmid
+ * 
+ * 
+ */
 
 public class Personen extends PopupPanel {
 	static Grid ergebnisGrid = new Grid();

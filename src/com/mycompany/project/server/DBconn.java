@@ -5,7 +5,12 @@ import com.mycompany.project.client.Kante;
 import com.mycompany.project.client.Knoten;
 import com.mycompany.project.client.Person;
 import com.mycompany.project.client.Raum;
-
+/**
+ * enthaelt Methoden fuer SQL Anfragen
+ * @author David Schmid
+ * @author Martin Zellner
+ *
+ */
 public abstract class DBconn {
 	
 	public static Connection getConnection(){
@@ -385,6 +390,34 @@ public abstract class DBconn {
 		try {
 			 Connection conn = getConnection();
 			 String query="update personen set raumid=NULL where id="+pid+";";
+			 Statement stmt=conn.createStatement();
+			 stmt.executeUpdate(query);
+		} catch (SQLException ex) {
+		     System.out.println("SQLException: " + ex.getMessage());
+		     System.out.println("SQLState: " + ex.getSQLState());
+		     System.out.println("VendorError: " + ex.getErrorCode());
+		}
+	}
+	public static String getUrl() {
+		try {
+			 Connection conn = getConnection();
+			 String query="select url from url;";
+			 Statement stmt=conn.createStatement();
+			 ResultSet rs = stmt.executeQuery(query);
+			 rs.next();
+			return rs.getString(1);
+			 
+		} catch (SQLException ex) {
+		     System.out.println("SQLException: " + ex.getMessage());
+		     System.out.println("SQLState: " + ex.getSQLState());
+		     System.out.println("VendorError: " + ex.getErrorCode());
+		     return null;
+		}
+	}
+	public static void setUrl(String url) {
+		try {
+			 Connection conn = getConnection();
+			 String query="update url set url='"+url+"' where url like \"%\";";
 			 Statement stmt=conn.createStatement();
 			 stmt.executeUpdate(query);
 		} catch (SQLException ex) {

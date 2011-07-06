@@ -1,6 +1,13 @@
 package com.mycompany.project.client;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+/**
+ * Serialisierbare Klasse zum Speichern von Personendaten
+ * @author Martin Zellner
+ * @author David Schmid
+ * 
+ * 
+ */
 
 public class Person implements IsSerializable {
 

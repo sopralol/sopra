@@ -10,6 +10,13 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.mysql.jdbc.log.Log;
+/**
+ * Klasse zum Suchen von Personen
+ * @author Martin Zellner
+ * @author David Schmid
+ * 
+ * 
+ */
 
 public class PersonenSuche extends PopupPanel {
 

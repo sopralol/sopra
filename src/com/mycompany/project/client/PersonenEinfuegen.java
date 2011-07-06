@@ -8,6 +8,13 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
+/**
+ * Klasse zum Einfuegen von Personen
+ * @author Martin Zellner
+ * @author David Schmid
+ * 
+ * 
+ */
 
 public class PersonenEinfuegen extends PopupPanel {
 	static TextBox txtVorname = new TextBox();

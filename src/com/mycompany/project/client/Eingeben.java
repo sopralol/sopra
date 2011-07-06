@@ -1,4 +1,4 @@
-package com.mycompany.project.client;
+    package com.mycompany.project.client;
 
 import com.google.gwt.uibinder.elementparsers.ListBoxParser;
 import com.google.gwt.user.client.Window;
@@ -32,6 +32,13 @@ import com.google.gwt.maps.client.overlay.MarkerOptions;
 import com.google.gwt.maps.client.overlay.Polyline;
 import com.google.gwt.maps.client.overlay.PolylineOptions;
 
+/**
+ * Klasse zum Verwalten der Kanten-, Knoten- und Raumdaten.
+ * @author Martin Zellner
+ * @author David Schmid
+ * 
+ * 
+ */
 
 public class Eingeben extends PopupPanel{
 

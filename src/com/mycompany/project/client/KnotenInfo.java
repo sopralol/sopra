@@ -15,25 +15,32 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * Zustaendig zum Anzeigen und editieren von Raum- und Personendaten die den Knoten betreffen.
+ * @author Martin Zellner
+ * @author David Schmid
+ * 
+ * 
+ */
 public class KnotenInfo extends Composite {
-	static VerticalPanel panel;
-	static boolean first=true;
-	static Grid grid;
-	static Grid gridPersonen;
-	static Raum raum;
-	static Button btnSpeichern = new Button("Speichern");
-	static Button btnSuchen = new Button("S");
-	static Button btnPlus = new Button("+");
-	static Button btnClear = new Button("C");
-	static Label lblName = new Label("Name/Nr.:");;
-	static Label lblTyp = new Label("Raumtyp:");
-	static TextBox txtName = new TextBox();
-	static TextBox txtVorname = new TextBox();
-	static TextBox txtNachname= new TextBox();
-	static TextBox txtTitel = new TextBox();
-	static ListBox lbTyp = new ListBox();
-	static ListBox lbResult;
-	static ClickHandler chm = new ClickHandler() {
+	private static VerticalPanel panel;
+	private static boolean first=true;
+	private static Grid grid;
+	private static Grid gridPersonen;
+	private static Raum raum;
+	private static Button btnSpeichern = new Button("Speichern");
+	private static Button btnSuchen = new Button("S");
+	private static Button btnPlus = new Button("+");
+	private static Button btnClear = new Button("C");
+	private static Label lblName = new Label("Name/Nr.:");;
+	private static Label lblTyp = new Label("Raumtyp:");
+	private static TextBox txtName = new TextBox();
+	private static TextBox txtVorname = new TextBox();
+	private static TextBox txtNachname= new TextBox();
+	private static TextBox txtTitel = new TextBox();
+	private static ListBox lbTyp = new ListBox();
+	private static ListBox lbResult;
+	private static ClickHandler chm = new ClickHandler() {
 		
 		@Override
 		public void onClick(ClickEvent event) {
@@ -50,9 +57,29 @@ public class KnotenInfo extends Composite {
 				}
 			});
 			gridPersonen.removeRow(gridrow);
+			fixBug(gridrow);
 		}
+
 	};
-	static ClickHandler chsp = new ClickHandler() {
+	/**
+	 * Veraendert die gespeichetren Informationen die beim Loeschen der Zeile ausschlaggebend sind
+	 * @param pGridrow gibt die Stelle der zu loeschenden Reihe an.
+	 * 
+	 */
+	private static void fixBug(int pGridrow) {
+		// methode schreibt values der buttons um
+		for (int i = pGridrow; i <= gridPersonen.getRowCount(); i++) {
+			Button tmp = (Button) gridPersonen.getWidget(i, 0);
+			String[] split = tmp.getTitle().split(" ");
+			int pid = Integer.parseInt(split[0]);
+			int gridrow = Integer.parseInt(split[1]);
+			gridrow--;
+			tmp.setTitle(pid + " " + gridrow);
+		}
+		
+	}
+	
+	private static ClickHandler chsp = new ClickHandler() {
 		@Override
 		public void onClick(ClickEvent event) {
 			if(null != raum.name){
@@ -81,7 +108,7 @@ public class KnotenInfo extends Composite {
 			}
 		}
 	};
-	static ClickHandler chs = new ClickHandler() {
+	private static ClickHandler chs = new ClickHandler() {
 		@Override
 		public void onClick(ClickEvent event) {
 			update.Util.getInstance().person_suchen(txtVorname.getText(), txtNachname.getText(), "", txtTitel.getText(), new AsyncCallback<Person[]>() {
@@ -105,7 +132,7 @@ public class KnotenInfo extends Composite {
 			});
 		}
 	};
-	static ClickHandler chp = new ClickHandler() {
+	private static ClickHandler chp = new ClickHandler() {
 		@Override
 		public void onClick(ClickEvent event) {
 			if(raum.id != -1){
@@ -142,7 +169,7 @@ public class KnotenInfo extends Composite {
 			}
 		}
 	};
-	static ClickHandler chc = new ClickHandler() {
+	private static ClickHandler chc = new ClickHandler() {
 		
 		@Override
 		public void onClick(ClickEvent event) {
@@ -153,7 +180,13 @@ public class KnotenInfo extends Composite {
 			gridPersonen.setWidget(0, 3, txtTitel);
 		}
 	};
-
+	/**
+	 * Initialisiert die angezeigten Details zu dem entsprechenden Raum 
+	 * @param context
+	 * 	Koordinaten des zu bearbeitenden Raums
+	 * @param niveau
+	 *  Niveau des zu bearbeitenden Raums
+	 */
 	public KnotenInfo(LatLng context, int niveau) {
 		txtName.setText("");
 		if(first){
@@ -241,7 +274,7 @@ public class KnotenInfo extends Composite {
 		panel.setSize("300px", "300px");
 		initWidget(panel);
 	}
-	void initHandlers(){
+	private void initHandlers(){
 		btnSpeichern.addClickHandler(chsp);
 		btnSuchen.addClickHandler(chs);
 		btnPlus.addClickHandler(chp);

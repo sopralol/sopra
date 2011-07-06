@@ -2,7 +2,13 @@ package com.mycompany.project.client;
 
 
 import com.google.gwt.user.client.rpc.IsSerializable;
-
+/**
+ * Serialisierbare Klasse zum Speichern von Knotendaten
+ * @author Martin Zellner
+ * @author David Schmid
+ * 
+ * 
+ */
 public class Knoten implements IsSerializable {
 	
 	public int typ,niveau;

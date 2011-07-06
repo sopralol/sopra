@@ -2,6 +2,13 @@ package com.mycompany.project.client;
 
 import com.google.gwt.maps.client.geom.LatLng;
 import com.google.gwt.user.client.rpc.IsSerializable;
+/**
+ * Klasse zum Speichern einer Kante
+ * @author Martin Zellner
+ * @author David Schmid
+ * 
+ * 
+ */
 
 public class Kante implements IsSerializable {
 	public int gewicht,niveau;

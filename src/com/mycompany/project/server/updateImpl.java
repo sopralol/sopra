@@ -7,7 +7,12 @@ import com.mycompany.project.client.Raum;
 import com.mycompany.project.client.update;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
+/**
+ * enthaelt implementierte Methoden fuer RPC Calls
+ * @author David Schmid
+ * @author Martin Zellner
+ *
+ */
 public class updateImpl extends RemoteServiceServlet implements update {
 
 	@Override
@@ -76,5 +81,12 @@ public class updateImpl extends RemoteServiceServlet implements update {
 	}
 	public Person[] getPersonbyRID(int rid){
 		return DBconn.getPersonenbyRID(rid);
+	}
+	
+	public String gib_url(){
+		return DBconn.getUrl();
+	}	
+	public void mach_url(String url){
+		DBconn.setUrl(url);
 	}
 }

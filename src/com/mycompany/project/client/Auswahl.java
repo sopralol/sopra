@@ -10,6 +10,14 @@ import com.mycompany.project.unused.Loeschen;
 import com.mycompany.project.unused.Raumdatenaend;
 import com.mycompany.project.unused.Upload;
 */
+/**
+ * Hauptauswahl.
+ * @author Martin Zellner
+ * @author David Schmid
+ * 
+ * 
+ */
+
 public class Auswahl extends Composite {
 
 	
@@ -17,8 +25,7 @@ public class Auswahl extends Composite {
 		
 		VerticalPanel verticalPanel = new VerticalPanel();
 		initWidget(verticalPanel);
-		
-		Button button_0 = new Button("Karten Hochladen");
+		Button button_0 = new Button("URL zu Karten einstellen");
 		Button button_1 = new Button("Kartendaten verwalten");
 		Button button_2 = new Button("Personendaten verwalten");
 
@@ -26,6 +33,13 @@ public class Auswahl extends Composite {
 		button_1.setWidth("400px");
 		button_2.setWidth("400px");
 
+		button_0.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				new Kartendaten().center();
+			}
+		});
 		
 		button_1.addClickHandler(new ClickHandler() {
 			@Override
@@ -41,6 +55,7 @@ public class Auswahl extends Composite {
 			new Personen().center();
 			}
 		});
+		
 		
 		verticalPanel.add(button_0);
 		verticalPanel.add(button_1);

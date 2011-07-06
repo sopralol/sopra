@@ -1,13 +1,20 @@
 package com.mycompany.project.client;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+/**
+ * Klasse zum Speichern von Raumdaten
+ * @author Martin Zellner
+ * @author David Schmid
+ * 
+ * 
+ */
 
 public class Raum implements IsSerializable {
 	int id;
 	int kid;
 	String name;
 	int typ;
-	public Raum(){};;;;;;;;;;;;;;;;;;
+	public Raum(){};;;;;;;;;;;;;;;;;; //weils geht
 	public Raum(int id, int kid, String name, int typ) {
 		super();
 		this.id = id;
