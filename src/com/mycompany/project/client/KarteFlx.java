@@ -51,8 +51,8 @@ public class KarteFlx extends Composite{
 
 			      @Override
 			      public String getTileURL(Point tile, int zoomLevel) {
-			    	 System.out.println("DEBUG: KarteFlx()1 " + urlstring+"/"+"Niveau1/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".jpg");
-			    	 return urlstring+"/"+"Niveau1/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".jpg"; 
+			    	 System.out.println("DEBUG: KarteFlx()1 " + urlstring+"/"+"Niveau1/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".png");
+			    	 return urlstring+"/"+"Niveau1/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".png"; 
 			      }
 
 			      @Override
@@ -68,8 +68,8 @@ public class KarteFlx extends Composite{
 
 		  	      @Override
 		  	      public String getTileURL(Point tile, int zoomLevel) {
-		  	    	System.out.println("DEBUG: KarteFlx()2 " + urlstring+"/"+"Niveau2/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".jpg");
-		  	    	 return urlstring+"/"+"Niveau2/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".jpg";
+		  	    	System.out.println("DEBUG: KarteFlx()2 " + urlstring+"/"+"Niveau2/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".png");
+		  	    	 return urlstring+"/"+"Niveau2/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".png";
 		  	      }
 
 		  	      @Override
@@ -85,8 +85,8 @@ public class KarteFlx extends Composite{
 
 		  	      @Override
 		  	      public String getTileURL(Point tile, int zoomLevel) {
-		  	    	System.out.println("DEBUG: KarteFlx()3 " + urlstring+"/"+"Niveau3/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".jpg");
-		  	    	 return urlstring+"/"+"Niveau3/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".jpg";
+		  	    	System.out.println("DEBUG: KarteFlx()3 " + urlstring+"/"+"Niveau3/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".png");
+		  	    	 return urlstring+"/"+"Niveau3/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".png";
 		  	      }
 
 		  	      @Override
@@ -102,8 +102,8 @@ public class KarteFlx extends Composite{
 
 		  	      @Override
 		  	      public String getTileURL(Point tile, int zoomLevel) {
-		  	    	System.out.println("DEBUG: KarteFlx()4 " + urlstring+"/"+"Niveau4/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".jpg");
-		  	    	 return urlstring+"/"+"Niveau4/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".jpg";
+		  	    	System.out.println("DEBUG: KarteFlx()4 " + urlstring+"/"+"Niveau4/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".png");
+		  	    	 return urlstring+"/"+"Niveau4/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".png";
 		  	      }
 
 		  	      @Override
@@ -119,8 +119,8 @@ public class KarteFlx extends Composite{
 
 		  	      @Override
 		  	      public String getTileURL(Point tile, int zoomLevel) {
-		  	    	System.out.println("DEBUG: KarteFlx()5 " + urlstring+"/"+"Niveau5/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".jpg");
-		  	    	 return urlstring+"/"+"Niveau5/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".jpg";
+		  	    	System.out.println("DEBUG: KarteFlx()5 " + urlstring+"/"+"Niveau5/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".png");
+		  	    	 return urlstring+"/"+"Niveau5/"+zoomLevel+"-"+tile.getX()+"-"+tile.getY()+".png";
 		  	      }
 
 		  	      @Override
