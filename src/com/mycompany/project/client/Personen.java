@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 /**
  * Auswahl der Personenfunktionen.
  * @author Martin Zellner
@@ -29,16 +30,22 @@ public class Personen extends PopupPanel {
 	static Button buttonEinfuegen = new Button("Einfuegen");
 	static Button buttonAendern = new Button("Aendern");
 	static Button buttonLoeschen = new Button("Loeschen");
-
+	static Button btnBack = new Button("Zurueck");
 	
 	
 	public Personen(){
-		super(true);
+		super();
 		verticalpanel = new VerticalPanel();
 		scrollpanel = new ScrollPanel();
 		setSize("850px", "800px");
 		
-		
+		btnBack.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				hide();
+			}
+		});
 		buttonSuchen.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -90,6 +97,7 @@ public class Personen extends PopupPanel {
 		horizontalpanel.add(buttonEinfuegen);
 		horizontalpanel.add(buttonAendern);
 		horizontalpanel.add(buttonLoeschen);
+		horizontalpanel.add(btnBack);
 		verticalpanel.add(horizontalpanel);
 		scrollpanel.add(ergebnisGrid);
 		verticalpanel.add(scrollpanel);

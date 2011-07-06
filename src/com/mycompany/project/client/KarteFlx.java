@@ -29,12 +29,9 @@ public class KarteFlx extends Composite{
 	static String niveau="Niveau1";
 	static int i=0;
 	static MapWidget map;
+	static final String urlstring = Auswahl.urlstring;
 
 	public KarteFlx(){
-		update.Util.getInstance().gib_url(new AsyncCallback<String>() {
-			
-			@Override
-			public void onSuccess(final String urlstring) {
 				map = new MapWidget(LatLng.newInstance(33.7814790, -84.3880580),2);
 			    map.setSize("585px", "585px");
 			    
@@ -175,16 +172,6 @@ public class KarteFlx extends Composite{
 			    a.add(map);
 			    	
 			  initWidget(a);
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				System.out.println("DEBUG: KarteFlx FUUUUCK");
-				
-			}
-		});
 	}
 
 }

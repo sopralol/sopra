@@ -48,12 +48,13 @@ public class Eingeben extends PopupPanel{
 	static RadioButton radiobtnEintragen = new RadioButton("weg", "Eintragen");
 	static RadioButton radiobtnLoeschen = new RadioButton("weg", "Loeschen");
 	static RadioButton radiobtnTreppe = new RadioButton("weg", "Treppe eintragen");
+	static Button btnBack = new Button("Zurueck");
 	static ListBox listboxVon = new ListBox();
 	static ListBox listboxBis = new ListBox();
 	static AbsolutePanel absolutePanel = new AbsolutePanel();
 	static boolean insert=true;
 	static boolean lasttreppe= false;
-	static Grid grid = new Grid(3, 3);
+	static Grid grid = new Grid(2, 4);
 	static private MapWidget map;
 	static LatLng oldlatln;
 	static Marker oldmarker;
@@ -263,7 +264,7 @@ public class Eingeben extends PopupPanel{
 	};
 	
 	public Eingeben() {
-		super(true);
+		super();
 		setSize("850px", "800px");
 		setWidget(absolutePanel);
 		absolutePanel.setSize("620px", "600px");
@@ -271,7 +272,14 @@ public class Eingeben extends PopupPanel{
 		KarteFlx karte = new KarteFlx();
 	    map = karte.map;
 	    initMap(2);
-	    
+		btnBack.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				hide();
+			}
+		});	
+			    
 	    map.addMapClickHandler(new MapClickHandler() {
 			@Override
 			public void onClick(MapClickEvent event) {
@@ -350,6 +358,7 @@ public class Eingeben extends PopupPanel{
 		grid.setWidget(0, 0, radiobtnEintragen);
 		grid.setWidget(0, 1, radiobtnLoeschen);
 		grid.setWidget(0, 2, radiobtnBearbeiten);
+		grid.setWidget(0, 3, btnBack);
 		grid.setWidget(1, 0, radiobtnTreppe);
 		grid.setWidget(1, 1, listboxVon);
 		grid.setWidget(1, 2, listboxBis);

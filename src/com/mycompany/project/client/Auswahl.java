@@ -1,5 +1,6 @@
 package com.mycompany.project.client;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Button;
@@ -20,14 +21,14 @@ import com.mycompany.project.unused.Upload;
 
 public class Auswahl extends Composite {
 
-	
+	static VerticalPanel verticalPanel = new VerticalPanel();
+	static Button button_0 = new Button("URL zu Karten einstellen");
+	static Button button_1 = new Button("Kartendaten verwalten");
+	static Button button_2 = new Button("Personendaten verwalten");
+	static String urlstring;
 	public Auswahl() {
 		
-		VerticalPanel verticalPanel = new VerticalPanel();
 		initWidget(verticalPanel);
-		Button button_0 = new Button("URL zu Karten einstellen");
-		Button button_1 = new Button("Kartendaten verwalten");
-		Button button_2 = new Button("Personendaten verwalten");
 
 		button_0.setWidth("400px");
 		button_1.setWidth("400px");
@@ -37,6 +38,9 @@ public class Auswahl extends Composite {
 			
 			@Override
 			public void onClick(ClickEvent event) {
+				verticalPanel.remove(button_0);
+				verticalPanel.remove(button_1);
+				verticalPanel.remove(button_2);
 				new Kartendaten().center();
 			}
 		});
@@ -44,6 +48,9 @@ public class Auswahl extends Composite {
 		button_1.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				verticalPanel.remove(button_0);
+				verticalPanel.remove(button_1);
+				verticalPanel.remove(button_2);
 				new Eingeben().center();				
 			}
 		});
@@ -52,15 +59,32 @@ public class Auswahl extends Composite {
 		button_2.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				verticalPanel.remove(button_0);
+				verticalPanel.remove(button_1);
+				verticalPanel.remove(button_2);
+
 			new Personen().center();
 			}
 		});
 		
-		
-		verticalPanel.add(button_0);
-		verticalPanel.add(button_1);
-		verticalPanel.add(button_2);
-	
+		update.Util.getInstance().gib_url(new AsyncCallback<String>() {
+			
+			@Override
+			public void onSuccess(String result) {
+				// TODO Auto-generated method stub
+				urlstring = new String(result);
+				verticalPanel.add(button_0);
+				verticalPanel.add(button_1);
+				verticalPanel.add(button_2);
+				
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 }

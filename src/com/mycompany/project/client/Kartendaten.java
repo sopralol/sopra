@@ -19,7 +19,7 @@ public class Kartendaten extends PopupPanel {
 		Button btnSave = new Button("Speichern");
 		Button btnCancel = new Button("Abbrechen");
 		txtUrl = new TextBox();
-		
+		txtUrl.setValue(Auswahl.urlstring);
 		btnCancel.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -31,10 +31,12 @@ public class Kartendaten extends PopupPanel {
 			
 			@Override
 			public void onClick(ClickEvent event) {
+				Auswahl.urlstring = txtUrl.getValue();
 				update.Util.getInstance().mach_url(txtUrl.getValue(), new AsyncCallback<Void>() {
 					
 					@Override
 					public void onSuccess(Void result) {
+						
 						hide();
 						
 					}
