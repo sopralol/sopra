@@ -439,9 +439,9 @@ public class Eingeben extends PopupPanel{
 		});
 	}
 	private static void refreshMap (int niv, LatLng del){
-		//map.clearOverlays();
-		//initKnoten(niv, del);
-		//initKanten(niv, del);
+		map.clearOverlays();
+		initKnoten(niv, del);
+		initKanten(niv, del);
 		
 	}
 	private static void initKanten (int niv, LatLng del){
